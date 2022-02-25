@@ -16,7 +16,7 @@ class MailController extends Controller {
             $message->to(Auth::user()->email);
             $message->from(Auth::user()->email,'Vytautas');
         });
-        echo Auth::user()->name . 'email sent to ' . Auth::user()->email . ' email address';
+        return view('email-text');
     }
 
 }
