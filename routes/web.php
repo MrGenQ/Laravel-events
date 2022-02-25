@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EventsController;
 use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\MailController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -49,3 +50,7 @@ Route::get('/cancel/reservation/{registration}', [RegistrationController::class,
 //Delete
 Route::get('/delete/event/{event}', [EventsController::class, 'deleteEvent']);
 Route::get('/delete/reservation/{registration}', [RegistrationController::class, 'deleteRegistration']);
+
+//Mail
+Route::get('/sendhtmlemail', [MailController::class, 'html_email']);
+

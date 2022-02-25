@@ -56,4 +56,10 @@ class RegistrationController extends Controller
         Registration::where('id', $registration->id)->update(['status' => false]);
         return redirect('/confirm-registration');
     }
+    public function email(){
+        return view('emails.mail');
+    }
+    public function emails(){
+        return view('emails');
+    }
 }
