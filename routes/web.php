@@ -51,6 +51,4 @@ Route::get('/cancel/reservation/{registration}', [RegistrationController::class,
 Route::get('/delete/event/{event}', [EventsController::class, 'deleteEvent']);
 Route::get('/delete/reservation/{registration}', [RegistrationController::class, 'deleteRegistration']);
 
-//Mail
-Route::get('/sendhtmlemail', [MailController::class, 'html_email']);
 

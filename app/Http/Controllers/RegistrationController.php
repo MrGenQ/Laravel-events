@@ -7,6 +7,7 @@ use App\Models\Registration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Mail;
 
 class RegistrationController extends Controller
 {
@@ -41,25 +42,34 @@ class RegistrationController extends Controller
         $events = Events::all();
         return view('pages.registration.confirm-registration', compact('registrations', 'events_id', 'events_title', 'events'));
     }
-    public function deleteRegistration(Registration $registration, Events $event){
-        if(Gate::denies('delete-registration', $registration) && Auth::user()->name != "admin"){
-            return view('_partials.no-permission');
-        }
-        else {$registration->delete();}
+    public function deleteRegistration(Registration $registration){
+        $data = array('name'=> $registration->fname);
+        Mail::send('pages.email.mail-cancel', $data, function($message) use ($registration) {
+            $message->to($registration->email, $registration->fname)->subject
+            ('Event registration canceled');
+            $message->from(Auth::user()->email, Auth::user()->name);
+        });
+        $registration->delete();
         return redirect('/confirm-registration');
     }
     public function storeStatus(Registration $registration, Request $request){
+        $data = array('name'=> $registration->fname);
+        Mail::send('pages.email.mail', $data, function($message) use ($registration) {
+            $message->to($registration->email, $registration->fname)->subject
+            ('Event registration confirmed');
+            $message->from(Auth::user()->email, Auth::user()->name);
+        });
         Registration::where('id', $registration->id)->update(['status' => true]);
         return redirect('/confirm-registration');
     }
     public function cancelStatus(Registration $registration, Request $request){
+        $data = array('name'=> $registration->fname);
+        Mail::send('pages.email.mail-uncheck', $data, function($message) use ($registration) {
+            $message->to($registration->email, $registration->fname)->subject
+            ('Event registration unconfirmed');
+            $message->from(Auth::user()->email, Auth::user()->name);
+        });
         Registration::where('id', $registration->id)->update(['status' => false]);
         return redirect('/confirm-registration');
-    }
-    public function email(){
-        return view('emails.mail');
-    }
-    public function emails(){
-        return view('emails');
     }
 }

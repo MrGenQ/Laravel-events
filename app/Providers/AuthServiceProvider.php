@@ -30,9 +30,6 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('delete-event', function($user, $event){
             return $user ->id == $event->user_id;
         });
-        Gate::define('delete-registration', function($event, $registration){
-            return $event ->id == $registration->event_id;
-        });
-        //
+
     }
 }
