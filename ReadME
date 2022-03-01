@@ -1,0 +1,9 @@
+to send email configure .env file
+1. copy .env.example and rename it to .env
+2. configure MAIL part to:
+  MAIL_DRIVER=smtp
+  MAIL_HOST=smtp.googlemail.com
+  MAIL_PORT=465
+  MAIL_USERNAME=your-email-address
+  MAIL_PASSWORD=your-email-password
+  MAIL_ENCRYPTION=ssl
